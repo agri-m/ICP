@@ -1,0 +1,29 @@
+class Solution {
+    public boolean exist(char[][] board, String word) {
+        char[] w=word.toCharArray();
+        for(int i=0;i<board.length;i++){
+            for(int j=0;j<board[0].length;j++){
+                if(helper(board,w,0,i,j,board.length-1,board[0].length-1)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    public boolean helper(char[][]arr, char[] word, int p, int row, int col, int er, int ec){
+        if(p==word.length){
+            return true;
+        }
+        if(row<0 || col<0 || row>er || col>ec || arr[row][col]!=word[p]){
+            return false;
+        }
+        char temp=arr[row][col];
+        arr[row][col]='#';
+        boolean ans=(helper(arr,word,p+1,row,col+1,er,ec) ||
+                    helper(arr,word,p+1,row,col-1,er,ec) ||
+                    helper(arr,word,p+1,row+1,col,er,ec) ||
+                    helper(arr,word,p+1,row-1,col,er,ec));
+        arr[row][col]=temp;
+        return ans;
+    }
+}
